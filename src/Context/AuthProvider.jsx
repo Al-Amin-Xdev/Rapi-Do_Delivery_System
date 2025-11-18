@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { AuthContext } from './AuthContext';
 import { createUserWithEmailAndPassword } from 'firebase/auth/cordova';
 import { auth } from '../firebase-auth/firebase.init';
-import { onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth';
+import { onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth';
 import { GoogleAuthProvider } from "firebase/auth";
 const provider = new GoogleAuthProvider();
 
@@ -36,6 +36,14 @@ const AuthProvider = ({children}) => {
     return signOut(auth)
   };
 
+  const updateProfileInfo =(Info)=>{
+    return updateProfile(auth.currentUser, Info)
+  };
+
+  const resetPassword =(email)=>{
+    return sendPasswordResetEmail(auth, email)
+  };
+
   //Observe User State(Whether a user is loged in or not)
   useEffect(()=>{
     const unsubscribe = onAuthStateChanged(auth, (currentUser)=>{
@@ -52,7 +60,7 @@ const AuthProvider = ({children}) => {
 
   // Incorporate authInfo in following object
   const AuthInfo = {
-    setLoading, loading, user, setUser, registerUser, loginUser, loginWithPopUp, logOutUser
+    setLoading, loading, user, setUser, registerUser, loginUser, loginWithPopUp, logOutUser, updateProfileInfo, resetPassword
   };
 
 

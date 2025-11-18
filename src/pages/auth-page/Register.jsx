@@ -1,17 +1,21 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
-import { NavLink } from "react-router";
+import { NavLink, useLocation, useNavigate } from "react-router";
 import useAuth from "../../Custom-Hooks/useAuth";
+import axios from "axios";
 
 const Register = () => {
-  const { registerUser, loginWithPopUp, setLoading } = useAuth();
+  const { registerUser, loginWithPopUp, setLoading, updateProfileInfo } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
 
   const handleForm = (data) => {
     // console.log(data); // Form data is coming
@@ -22,7 +26,7 @@ const Register = () => {
 
     registerUser(data.email, data.password)
       .then((result) => {
-        console.log(result);
+        console.log(result.user.email);
 
         // 1. store the image in form data
         const formData = new FormData();
@@ -33,7 +37,28 @@ const Register = () => {
           import.meta.env.VITE_image_host_key
         }`;
 
-        
+        axios.post(image_API_URL, formData).then((res) => {
+          console.log("After sending the image to imag bb", res.data.data.url);
+
+          // Storing name and photo url into a variable
+          const profileInfo = {
+            displayName: data.name,
+            photoURL: res.data.data.url,
+          };
+          console.log("from PrfileInfo", profileInfo);
+
+
+
+          // Updating User Profile Name and photo
+          updateProfileInfo(profileInfo)
+          .then(()=>{
+             navigate(location.state || '/');
+          })
+          .catch(error=>{
+            console.log(error);
+          })
+
+        });
 
         setLoading(false);
         alert("User Registration Successfull ✅");
@@ -49,6 +74,7 @@ const Register = () => {
     loginWithPopUp()
       .then((result) => {
         console.log(result);
+        navigate(location.state || '/');
         setLoading(false);
         alert("Log-in with is successfull ✅");
       })

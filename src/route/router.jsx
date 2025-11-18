@@ -5,6 +5,7 @@ import Coverage from "../pages/coverage/Coverage";
 import AuthLayout from "../root-layout/AuthLayout";
 import Register from "../pages/auth-page/Register";
 import Login from "../pages/auth-page/Login";
+import Reset from "../pages/auth-page/Reset";
 
 
 export const router = createBrowserRouter([
@@ -24,6 +25,7 @@ export const router = createBrowserRouter([
     children:[
       {path: '/register', Component: Register},
       {path: '/login', Component: Login},
+      {path: '/reset', Component: Reset},
     ]
   }
 ]);

@@ -46,25 +46,31 @@ const Navbar = () => {
         </NavLink>
       </li>
 
-      {/* <li className="font-bold py-3 ">
-    <NavLink to="/register" className={({ isActive }) =>
-      isActive ? "bg-primary text-white rounded-lg" : ""
-    }
-    >
-    Register 
-    </NavLink>
-  </li>
+      <li className="font-bold py-3 text-[16px]">
+        <NavLink
+          to="/register"
+          className={({ isActive }) =>
+            isActive ? "bg-primary text-white rounded-lg" : ""
+          }
+        >
+          Register
+        </NavLink>
+      </li>
 
-  <li className="font-bold py-3 ">
-    <NavLink to="/login" className={({ isActive }) =>
-      isActive ? "bg-primary text-white rounded-lg" : ""
-    }
-    >
-    Log-In 
-    </NavLink>
-  </li> */}
+       <li className="font-bold py-3 text-[16px]">
+        <NavLink
+          to="/login"
+          className={({ isActive }) =>
+            isActive ? "bg-primary text-white rounded-lg" : ""
+          }
+        >
+          Log-In
+        </NavLink>
+      </li>
+
     </>
   );
+
 
   return (
     <div>
@@ -100,14 +106,24 @@ const Navbar = () => {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1 gap-x-4">{links}</ul>
         </div>
+
         <div className="navbar-end">
+          {user && (
+            <div className="w-12 h-12 mx-2">
+              <img
+                className="w-full h-full rounded-full border-2 border-black-500 object-cover"
+                src={user.photoURL}
+                alt={user.displayName || "User Photo"}
+              />
+            </div>
+          )}
           {user ? (
             <button
               onClick={LogOut}
               className="font-bold px-4 py-2 bg-blue-600 text-white rounded shadow-md transition-transform duration-200 ease-in-out hover:shadow-xl hover:bg-blue-700"
             >
               {" "}
-              Log Out
+              {user.displayName}
             </button>
           ) : (
             <NavLink

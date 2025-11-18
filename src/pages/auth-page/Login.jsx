@@ -1,12 +1,14 @@
-import React from "react";
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import useAuth from "../../Custom-Hooks/useAuth";
-import { NavLink } from "react-router";
+import { NavLink, useLocation, useNavigate } from "react-router";
 
 const Login = () => {
 
   const {loginUser, loginWithPopUp, setLoading} = useAuth();
+  const location = useLocation();
+    const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -18,6 +20,7 @@ const Login = () => {
     loginUser(data.email, data.password)
     .then(result=>{
       console.log(result);
+      navigate(location?.state || '/')
       setLoading(false);
       alert("User log-in is successfull ✅");
 
@@ -37,15 +40,17 @@ const Login = () => {
     loginWithPopUp()
     .then(result=>{
       console.log(result);
+      navigate(location?.state || '/')
       setLoading(false);
-      alert("Log-in with is successfull ✅");
+      alert("Log-in with google is successfull ✅");
     })
     .catch(error=>{
       console.log(error);
       alert("Log-in with was successfull");
       setLoading(false);
     })
-  }
+  };
+
 
 
 
@@ -108,10 +113,11 @@ const Login = () => {
             <div className="text-right">
               <button
                 type="button"
-                className="text-sm text-green-600 hover:underline"
+                className="text-s text-blue-600 underline"
               >
-                Forgot password?
+                 <NavLink to="/reset">Forgot password? Reset Now</NavLink>
               </button>
+             
             </div>
 
             <button
