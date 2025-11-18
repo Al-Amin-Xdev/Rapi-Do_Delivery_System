@@ -6,6 +6,9 @@ import AuthLayout from "../root-layout/AuthLayout";
 import Register from "../pages/auth-page/Register";
 import Login from "../pages/auth-page/Login";
 import Reset from "../pages/auth-page/Reset";
+import Rider from "../pages/Rider-page/Rider";
+import PrivateRoute from "../Private-Route/PrivateRoute";
+
 
 
 export const router = createBrowserRouter([
@@ -14,6 +17,7 @@ export const router = createBrowserRouter([
     Component: RootLayout,
     children: [
       { index: true, Component: Home},
+      { path: '/rider', element: <PrivateRoute><Rider></Rider></PrivateRoute>},
       { path: '/coverage',
         loader: ()=> fetch("./location.json").then(res=>res.json()),
         Component: Coverage},

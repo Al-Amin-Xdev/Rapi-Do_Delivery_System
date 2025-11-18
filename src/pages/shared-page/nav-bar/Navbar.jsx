@@ -48,6 +48,17 @@ const Navbar = () => {
 
       <li className="font-bold py-3 text-[16px]">
         <NavLink
+          to="/rider"
+          className={({ isActive }) =>
+            isActive ? "bg-primary text-white rounded-lg" : ""
+          }
+        >
+          Be a Rider
+        </NavLink>
+      </li>
+
+      <li className="font-bold py-3 text-[16px]">
+        <NavLink
           to="/register"
           className={({ isActive }) =>
             isActive ? "bg-primary text-white rounded-lg" : ""

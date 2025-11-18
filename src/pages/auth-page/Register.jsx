@@ -169,7 +169,7 @@ const Register = () => {
 
             <div className="text-right">
               <button type="button" className="text-sm">
-                <NavLink to="/login">
+                <NavLink state={location.state} to="/login">
                   Already have an account?{" "}
                   <span className="underline text-blue-500 font-bold">
                     Login
