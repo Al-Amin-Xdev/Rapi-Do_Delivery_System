@@ -1,10 +1,9 @@
 import React from "react";
-import { useForm} from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { FaBox } from "react-icons/fa";
 import { useLoaderData } from "react-router";
 
 const SendParcel = () => {
-
   const pickUpStations = useLoaderData();
   // console.log(pickUpStations)
   const duplicateDivison = pickUpStations.map((district) => district.region);
@@ -15,23 +14,24 @@ const SendParcel = () => {
   const {
     register,
     handleSubmit,
-    watch,
+    control,
     formState: { errors },
   } = useForm();
-  
-  const senderDistrict = watch('senderDivision')
+
+  const senderDistrict = useWatch({control, name:"senderDivision"});
+
+  const receiverDistrict = useWatch({control, name:"receiverDivision"});
+
 
   const onSubmit = (data) => {
     console.log("Form Data:", data);
   };
 
-
-   const regionBydistrict = (regionValue)=>{
-    const regions = pickUpStations.filter(r=> r.region === regionValue);
-    const district = regions.map(location => location.district);
+  const regionBydistrict = (regionValue) => {
+    const regions = pickUpStations.filter((r) => r.region === regionValue);
+    const district = regions.map((location) => location.district);
     return district;
   };
-
 
   const phonePattern = /^01\d{9}$/;
 
@@ -229,6 +229,8 @@ const SendParcel = () => {
                 )}
               </div>
 
+              {/* Division---District Selection using useform and watch  */}
+
               <div className="Division">
                 <label className="block mb-1 font-medium">
                   Sender District
@@ -251,7 +253,6 @@ const SendParcel = () => {
                       {dis}
                     </option>
                   ))}
-
                 </select>
                 {errors.senderDivision && (
                   <p className="text-red-600 text-sm mt-1">
@@ -282,7 +283,6 @@ const SendParcel = () => {
                       {dis}
                     </option>
                   ))}
-
                 </select>
                 {errors.senderDistrict && (
                   <p className="text-red-600 text-sm mt-1">
@@ -291,26 +291,7 @@ const SendParcel = () => {
                 )}
               </div>
 
-              <div>
-                <label className="block mb-1 font-medium">
-                  Sender District
-                </label>
-                <input
-                  type="text"
-                  placeholder="Sender District"
-                  {...register("senderDistrict", {
-                    required: "Sender district is required",
-                  })}
-                  className={`input input-bordered w-full ${
-                    errors.senderDistrict && "border-red-500"
-                  }`}
-                />
-                {errors.senderDistrict && (
-                  <p className="text-red-600 text-sm mt-1">
-                    {errors.senderDistrict.message}
-                  </p>
-                )}
-              </div>
+              {/* Senders Address */}
 
               <div>
                 <label className="block mb-1 font-medium">Sender Address</label>
@@ -416,27 +397,69 @@ const SendParcel = () => {
                 )}
               </div>
 
-              <div>
+              {/* Receiver--Division---District Selection using useform and watch  */}
+
+              <div className="Division">
                 <label className="block mb-1 font-medium">
-                  Receiver District
+                  Receiver Division
                 </label>
-                <input
-                  type="text"
-                  placeholder="Receiver District"
-                  {...register("receiverDistrict", {
-                    required: "Receiver district is required",
+                <select
+                  {...register("receiverDivision", {
+                    required: "Please select a division",
                   })}
-                  className={`input input-bordered w-full ${
-                    errors.receiverDistrict && "border-red-500"
+                  defaultValue="" // placeholder default
+                  className={`select select-primary w-full ${
+                    errors.receiverDivision && "border-red-500"
                   }`}
-                />
-                {errors.receiverDistrict && (
+                >
+                  <option value="" disabled>
+                    Pick a division
+                  </option>
+
+                  {divison.map((dis, index) => (
+                    <option key={index} value={dis}>
+                      {dis}
+                    </option>
+                  ))}
+                </select>
+                {errors.receiverDivision && (
                   <p className="text-red-600 text-sm mt-1">
-                    {errors.receiverDistrict.message}
+                    {errors.receiverDivision.message}
                   </p>
                 )}
               </div>
 
+              <div className="distric">
+                <label className="block mb-1 font-medium">
+                  Reciever District
+                </label>
+                <select
+                  {...register("recieverDistrict", {
+                    required: "Please select a district",
+                  })}
+                  defaultValue="" // placeholder default
+                  className={`select select-primary w-full ${
+                    errors.recieverDistrict && "border-red-500"
+                  }`}
+                >
+                  <option value="" disabled>
+                    Pick a district
+                  </option>
+
+                  {regionBydistrict(receiverDistrict).map((dis, index) => (
+                    <option key={index} value={dis}>
+                      {dis}
+                    </option>
+                  ))}
+                </select>
+                {errors.recieverDistrict && (
+                  <p className="text-red-600 text-sm mt-1">
+                    {errors.recieverDistrict.message}
+                  </p>
+                )}
+              </div>
+
+              {/* Reciver address */}
               <div>
                 <label className="block mb-1 font-medium">
                   Receiver Address
