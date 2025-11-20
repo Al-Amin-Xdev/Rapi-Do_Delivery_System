@@ -5,8 +5,6 @@ import Review from "./Review";
 
 const ReviewCard = ({ reviewPromise }) => {
   const reviewData = use(reviewPromise);
-  console.log(reviewData);
-
   return (
     <div>
       <div>

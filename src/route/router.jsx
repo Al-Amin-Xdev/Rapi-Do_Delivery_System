@@ -8,6 +8,7 @@ import Login from "../pages/auth-page/Login";
 import Reset from "../pages/auth-page/Reset";
 import Rider from "../pages/Rider-page/Rider";
 import PrivateRoute from "../Private-Route/PrivateRoute";
+import SendParcel from "../pages/Send-Parcel/SendParcel";
 
 
 
@@ -18,6 +19,9 @@ export const router = createBrowserRouter([
     children: [
       { index: true, Component: Home},
       { path: '/rider', element: <PrivateRoute><Rider></Rider></PrivateRoute>},
+      { path: '/send-parcel',
+        loader: ()=> fetch("./location.json").then(res=>res.json()),
+        element: <SendParcel></SendParcel>},
       { path: '/coverage',
         loader: ()=> fetch("./location.json").then(res=>res.json()),
         Component: Coverage},
